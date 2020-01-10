@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@bodgery/bodgery-doorbot-ts": "^0.6.0",
+    "@bodgery/bodgery-doorbot-ts": "^0.7.0",
     "@frezik/doorbot-ts": "^0.11.0",
     "@frezik/rpi-doorbot-ts": "^0.6.0"
   }
