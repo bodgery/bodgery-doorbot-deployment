@@ -1,0 +1,21 @@
+# /etc/systemd/system/rfid.service
+# Systemd config file which starts the client. This will attach itself to 
+# /dev/tty0, which allows it to capture all the "keystrokes" from a 
+# USB RFID reader. This needs to be run before the default getty consoles 
+# so that /dev/tty0 is available for use.
+#
+[Unit]
+Description=RFID Doorbot
+After=getty.target rfid_db.service
+#Conflicts=getty@tty1.service
+
+[Service]
+ExecStart=/usr/local/bin/ts-node /home/pi/bodgery-doorbot-deployment/index.ts
+Restart=on-abort
+#StandardInput=tty-force
+#StandardOutput=inherit
+#StandardError=inherit
+#TTYPath=/dev/tty1
+
+[Install]
+WantedBy=multi-user.target
