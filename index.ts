@@ -26,12 +26,13 @@ wiegand.on( 'error', (err) => {
     Doorbot.log.error( '<Main> Error starting Wiegand reader: ' + err );
     process.exit(1);
 });
-/*
- * Test code
-wiegand.stdout.on( 'data', (data) => {
-    Doorbot.log.info( '<Main> Got Wiegand read: ' + data );
+wiegand.on( 'exit', (code, signal) => {
+    Doorbot.log.error( '<Main> Wiegand reader exited with code ' + code );
+    process.exit(1);
 });
- */
+wiegand.stderr.on( 'data', (data) => {
+    Doorbot.log.info( '<Main> Wiegand reader stderr: ' + data );
+});
 
 const reader = new Doorbot.FHReader( wiegand.stdout );
 const auth = new Bodgery.BodgeryOldAPIAuthenticator(
