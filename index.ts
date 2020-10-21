@@ -11,6 +11,7 @@ const BODGERY_API_PORT = 443;
 const WIEGAND_PROGRAM = '/usr/local/sbin/wiegand_c';
 const WIEGAND0_PIN = 12;
 const WIEGAND1_PIN = 13;
+const CACHE_FILE = '/var/tmp-ramdisk/cache.json';
 
 Doorbot.init_logger( "/home/pi/doorbot/doorbot.log"  )
 
@@ -35,18 +36,25 @@ wiegand.stderr.on( 'data', (data) => {
 });
 
 const reader = new Doorbot.FHReader( wiegand.stdout );
-const auth = new Bodgery.BodgeryOldAPIAuthenticator(
+const http_auth = new Bodgery.BodgeryOldAPIAuthenticator(
     BODGERY_API_HOST
     ,BODGERY_API_PORT
     ,"https"
 );
+const json_auth = new Doorbot.JSONAuthenticator(
+    CACHE_FILE
+);
+const multi_auth = new Doorbot.MultiAuthenticator([
+    json_auth
+    ,http_auth
+]);
 const act = new RPi.GPIOActivator( PIN, OPEN_TIME_MS );
 
 reader.init();
 act.init();
 
-reader.setAuthenticator( auth );
-auth.setActivator( act );
+reader.setAuthenticator( multi_auth );
+multi_auth.setActivator( act );
 
 reader
     .run()
