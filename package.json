@@ -11,6 +11,6 @@
   "dependencies": {
     "@bodgery/bodgery-doorbot-ts": "^0.7.0",
     "@frezik/doorbot-ts": "^0.15.0",
-    "@frezik/rpi-doorbot-ts": "^0.6.0"
+    "@frezik/rpi-doorbot-ts": "^0.7.0"
   }
 }
